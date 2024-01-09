@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css" rel="stylesheet" type="text/css">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <title>给博客增加一张热力图</title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Sleepingcat" type="application/atom+xml">
+</head>
+  <body>
+    <main class="container">
+      <header class="header">
+    <div class="blog-title">
+        <h1><a href="/">Sleepingcat</a></h1>
+
+    </div>
+    <nav class="navbar">
+        <ul class="menu">
+            
+                <li class="menu-item">
+                    <!-- Home Archives Categories About RSS Friends -->
+                    <!-- Home/Archives/Categories/About/RSS/Friends -->
+                    <a href="/" class="menu-item-link">Home</a>
+                    
+                </li>
+            
+                <li class="menu-item">
+                    <!-- Home Archives Categories About RSS Friends -->
+                    <!-- Home/Archives/Categories/About/RSS/Friends -->
+                    <a href="/archives" class="menu-item-link">Archives</a>
+                    
+                </li>
+            
+                <li class="menu-item">
+                    <!-- Home Archives Categories About RSS Friends -->
+                    <!-- Home/Archives/Categories/About/RSS/Friends -->
+                    <a href="/categories" class="menu-item-link">Categories</a>
+                    
+                </li>
+            
+                <li class="menu-item">
+                    <!-- Home Archives Categories About RSS Friends -->
+                    <!-- Home/Archives/Categories/About/RSS/Friends -->
+                    <a href="/about" class="menu-item-link">About</a>
+                    
+                </li>
+            
+                <li class="menu-item">
+                    <!-- Home Archives Categories About RSS Friends -->
+                    <!-- Home/Archives/Categories/About/RSS/Friends -->
+                    <a href="/atom.xml" class="menu-item-link">RSS</a>
+                    
+                </li>
+            
+                <li class="menu-item">
+                    <!-- Home Archives Categories About RSS Friends -->
+                    <!-- Home/Archives/Categories/About/RSS/Friends -->
+                    <a href="/friends" class="menu-item-link">Friends</a>
+                    
+                </li>
+            
+        </ul>
+    </nav>
+</header>
+      <article class="post">
+        <div class="post-title">
+          <h2 class="title">给博客增加一张热力图</h2>
+        </div>
+        
+        <div class="post-meta">
+          <span class="post-time">2023-12-04 17:12</span>
+          <span class="post-word-count"> 本文约 <span id="wordCount"></span> 字</span>
+        </div>
+        
+        <div class="post-content"><p>特别鸣谢 ChatGPT 3.5</p>
+<p>前一篇博客提到了想为博客增加一张类似 GitHub，也在评论区提出了解决方案。主要受<a target="_blank" rel="noopener" href="https://conge.livingwithfcs.org/">Conge 的博客</a>和他 <a target="_blank" rel="noopener" href="https://github.com/conge/RunningStreak">Github 仓库</a> 启发。</p>
+<span id="more"></span>
+<h2 id="我的方案"><a class="markdownIt-Anchor" href="#我的方案"></a> 我的方案</h2>
+<p>鉴于个人目前的水平，我选择的方案是绘制出一张热图再将它嵌在主页导航栏之间，而非选择直接修改模板去实现。我相当讨厌 Matplotlib 这个绘图库，所以我还是让 ChatGPT 帮忙。具体步骤大是</p>
+<ul>
+<li>读取所有博客的日期，并累加统计。对于 hexo 来说，可以选择读取 <code>source</code> 文件下所有 <code>.md</code> 文件，或者去 <code>public\archives</code> 文件下直接搜寻日期。尽管 ChatGPT 写这样一段程序不是问题，我还是不想每次都遍历文件。我的归档页面渲染出来的结果就是按日期顺序排列的文章，我最后选择手动复制这个页面的信息，让 ChatGPT 写了一段程序读取里面的日期。</li>
+<li>日期的转换和统计。把日期转换为与当年 1 月 1 日的距离，并且生成一个 365* 1 的数组统计，这一部分 ChatGPT 完成得非常好。接来下是要将这个向量补零， reshape 成 7* 52 的矩阵，恰好今年第一天是星期日，数据的头部不需要补零。GPT 在一个过程中总是打乱数据的顺序，花了一些时间解释。</li>
+<li>绘图。基本上我提的需求 GPT 都能完成。包括：
+<ul>
+<li>调整 x, y 轴的方向。一开始 GPT 画错了</li>
+<li>调整图片的比例，调整colorbar的大小，并将每一个格子都变成正方形</li>
+<li>加 x 和 y 轴的坐标，这一步也完全没有阻碍</li>
+<li>调整 colormap。 我希望分 4 个颜色梯度由浅到深绘制。但是给的结果是由深到浅，甚至变成了红色。GPT 对 RGB 颜色的深和浅的理解似乎有一些奇怪。</li>
+<li>给图片加上网格，GPT 再次将网格绘制成了 52* 7 的结果，下图显示的就是给出的结果，看到结果后我马上意识到错误在哪里。</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2023/12/04/my-heatmap-2023/image.png" alt="Alt text"><br>
+整个过程花费的时间确实不算少，我自己写大概也要花费相同的时间，并且要花更多的时间去查看绘图的文档调整效果（实在是记不住 API）。</p>
+<p>最后在主题文件合适的里面插入图片就大功告成。</p>
+<h2 id="结果"><a class="markdownIt-Anchor" href="#结果"></a> 结果</h2>
+<h3 id="我-vs-github-和-leetcode"><a class="markdownIt-Anchor" href="#我-vs-github-和-leetcode"></a> 我 vs Github 和 LeetCode</h3>
+<p>外观上和 Github 的图是非常接近的（因为本来就是按照它抄的，以及忽略我非常少的Contributtion，之所以把主题设置为 Light 是因为黑暗模式下对透明背景的图片不友好），Leecode 是跟随浏览器黑暗模式，并且是动态的，显示过去一年的所有信息，每一个月都有分隔，两者的鼠标悬停都可以显示当天相关的一些信息，而我只是一张图片.png</p>
+<p><img src="/2023/12/04/my-heatmap-2023/image-2.png" alt="Alt text"><br>
+<img src="/2023/12/04/my-heatmap-2023/image-1.png" alt="Alt text"></p>
+<h3 id="有待完善但短时间不会折腾"><a class="markdownIt-Anchor" href="#有待完善但短时间不会折腾"></a> 有待完善但短时间不会折腾</h3>
+<ul>
+<li>只是一张图片，并不是由 hmtl/css 渲染生成的，不能实现我的预期</li>
+<li>不支持黑暗模式，移动端不友好（整个博客本身就有这个问题）</li>
+<li>更新博客多了一个流程，需要手动跑 python 脚本更新图片</li>
+</ul>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs vim">hexo g<br><span class="hljs-keyword">python</span> heatmap2023.<span class="hljs-keyword">py</span><br>hexo d<br></code></pre></td></tr></table></figure>
+<ul>
+<li>只记录发布博客的数量，对于博客修改不会显示（如果改成读 git commit 的时间，似乎能更加完善，但细微的修改也会被记录下来）</li>
+<li>对于新的一年的数据的支持还不完善，改成 2024 年还需要稍加修改才能够使用</li>
+</ul>
+<p>除此之外，在PC端显示的，效果我非常满意。也不太打算折腾和改进。尽管 ChatGPT 帮忙，完成满足我需求的程序应该不是难事。</p>
+<p>目前计划新的一年并不删去前一年的热力图，而是在首页展示整个博客的历史。</p>
+<p>最后再次感谢 ChatGPT 的贡献。</p>
+</div>
+        <!-- <div class="welcome-message">欢迎！</div> -->
+      </article>
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          var wordCount = document.getElementById("wordCount");
+          var content = document.querySelector(".post-content").textContent;
+          var count = content.length;
+          wordCount.textContent = count;
+        });
+      </script>
+        
+        
+        <script src="https://giscus.app/client.js"
+        data-repo="sleepingcat42/sleepingcat42.github.io"
+        data-repo-id="R_kgDOJcZn-w"
+        data-category="General"
+        data-category-id="DIC_kwDOJcZn-84CWdls"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+        </script>
+        <!-- <script src="https://giscus.app/client.js"
+          data-repo=  sleepingcat42/sleepingcat42.github.io
+          data-repo-id="MDEwOlJlcG9zaXRvcnkzNTIwMzg4MTk="
+          data-category="General"
+          data-category-id="DIC_kwDOFPuvo84COOf2"
+          data-mapping="pathname"
+          data-reactions-enabled="1"
+          data-emit-metadata="0"
+          data-input-position="top"
+          data-theme="light"
+          data-lang="en"
+          data-loading="lazy"
+          crossorigin="anonymous"
+          async>
+        </script> -->
+        
+        <footer class="footer">
+    <div class="blog-title", align="left">
+        <style>
+            p.small {
+            line-height:1.2;}            
+        </style>
+        
+        <br />
+        <!-- <h1><a href="/">hello world</a></h1> -->
+        <!-- <p class="copyright"></p> -->
+        
+        <!-- <p class="cc-license">本站所有文章均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by/4.0/">CC4协议</a>进行许可。</p> -->
+        <p class="small">
+            
+            &copy; 2023 -<script>document.write(new Date().getFullYear())</script>  Sleepingcat. All rights reserved.<br>
+        
+            All posts are licensed under a <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by/4.0/">CC4.0 License</a>.<br>
+            Be kind and be curious.
+        </p>
+        
+    </div>
+    <br />
+    <br />
+    
+
+</footer>
+      </main>
+  </body>
+
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css" rel="stylesheet" type="text/css">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <title>MATLAB 关灯游戏：手把手教程</title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Sleepingcat" type="application/atom+xml">
+</head>
+  <body>
+    <main class="container">
+      <header class="header">
+    <div class="blog-title">
+        <h1><a href="/">Sleepingcat</a></h1>
+
+    </div>
+    <nav class="navbar">
+        <ul class="menu">
+            
+                <li class="menu-item">
+                    <!-- Home Archives Categories About RSS Friends -->
+                    <!-- Home/Archives/Categories/About/RSS/Friends -->
+                    <a href="/" class="menu-item-link">Home</a>
+                    
+                </li>
+            
+                <li class="menu-item">
+                    <!-- Home Archives Categories About RSS Friends -->
+                    <!-- Home/Archives/Categories/About/RSS/Friends -->
+                    <a href="/archives" class="menu-item-link">Archives</a>
+                    
+                </li>
+            
+                <li class="menu-item">
+                    <!-- Home Archives Categories About RSS Friends -->
+                    <!-- Home/Archives/Categories/About/RSS/Friends -->
+                    <a href="/categories" class="menu-item-link">Categories</a>
+                    
+                </li>
+            
+                <li class="menu-item">
+                    <!-- Home Archives Categories About RSS Friends -->
+                    <!-- Home/Archives/Categories/About/RSS/Friends -->
+                    <a href="/about" class="menu-item-link">About</a>
+                    
+                </li>
+            
+                <li class="menu-item">
+                    <!-- Home Archives Categories About RSS Friends -->
+                    <!-- Home/Archives/Categories/About/RSS/Friends -->
+                    <a href="/atom.xml" class="menu-item-link">RSS</a>
+                    
+                </li>
+            
+                <li class="menu-item">
+                    <!-- Home Archives Categories About RSS Friends -->
+                    <!-- Home/Archives/Categories/About/RSS/Friends -->
+                    <a href="/friends" class="menu-item-link">Friends</a>
+                    
+                </li>
+            
+        </ul>
+    </nav>
+</header>
+      <article class="post">
+        <div class="post-title">
+          <h2 class="title">MATLAB 关灯游戏：手把手教程</h2>
+        </div>
+        
+        <div class="post-meta">
+          <span class="post-time">2023-11-12 20:11</span>
+          <span class="post-word-count"> 本文约 <span id="wordCount"></span> 字</span>
+        </div>
+        
+        <div class="post-content"><h3 id="写在前面"><a class="markdownIt-Anchor" href="#写在前面"></a> 写在前面：</h3>
+<p>写于18年，搬运一些文章到这里，顺便测试动图的显示。</p>
+<p>仓库在这里：<a target="_blank" rel="noopener" href="https://github.com/sleepingcat42/A-puzzle">https://github.com/sleepingcat42/A-puzzle</a> ， 当时还不了解 Git 的指令，还是拖动上传的。</p>
+<span id="more"></span>
+<h2 id="游戏概览"><a class="markdownIt-Anchor" href="#游戏概览"></a> 游戏概览</h2>
+<h3 id="游戏画面"><a class="markdownIt-Anchor" href="#游戏画面"></a> 游戏画面</h3>
+<p>整个游戏的画面由 MATLAB 的 figure 窗口显示，没有用到 MATLAB 的 GUI 功能，直接点击图窗内的元素就能够进行交互。这个方案实际上存在一些问题：每一次刷新画面，都会重新生成生成一个 figure 窗口，所以用户移动了窗口的位置或者改变了窗口的大小，在下一个窗口生成后又会跳回原来的位置或者恢复原来的大小。忽略这个小问题，还是比较完善的一个程序。</p>
+<p><img src="/2023/11/12/matlab-puzzle/2019040422472618.gif" alt="规则展示"></p>
+<p><img src="/2023/11/12/matlab-puzzle/20190404215439500.gif" alt="复原画面"></p>
+<h2 id="游戏介绍"><a class="markdownIt-Anchor" href="#游戏介绍"></a> 游戏介绍</h2>
+<h4 id="游戏玩法来源"><a class="markdownIt-Anchor" href="#游戏玩法来源"></a> 游戏玩法来源</h4>
+<p>玩法应该是扩展了灯的状态的关灯游戏的。最早看到是多年前（10年前后）百度魔方吧有人制作了可以在网页上玩的版本，同时还制作了4×4版本。网页连接很早之前就失效，作者也不可考。感谢作者制作了这样一个有意思的小游戏。</p>
+<h4 id="设计参考"><a class="markdownIt-Anchor" href="#设计参考"></a> 设计参考</h4>
+<p>游戏的总体框架和设计都受到这篇博客的影响，没有用 MATLAB GUI 在 figure 内点击并用回调函数和这篇博客的是一致的。</p>
+<p>基于MATLAB的拼图游戏设计（图文详解，附完整代码）<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_32892383/article/details/79219110">https://blog.csdn.net/qq_32892383/article/details/79219110</a></p>
+<p>两个程序有很多相似之处，这篇文章条理很清晰，对于整个编写过程带来了很大帮助。</p>
+<h4 id="规则和功能"><a class="markdownIt-Anchor" href="#规则和功能"></a> 规则和功能</h4>
+<p>游戏的基本规则：如图所示，点击某一个方块自身及相邻的方块数值加一，到达最大值（设定的是9）循环回最小值（1），最小值的索引不是0而是1对应了Matlab的索引下标是1起始。关灯游戏中，只存在 0 和 1 两种状态。</p>
+<p>游戏目标：通过点击方块使所有的方块的值相同。<br>
+当玩家完成后显示步数和胜利语句。</p>
+<h4 id="一些定义"><a class="markdownIt-Anchor" href="#一些定义"></a> 一些定义</h4>
+<p>游戏画面有长宽两个维度，同时还有数字循环的次数。<br>
+仿照魔方将维度定义为m×n，可以在后续看到这个游戏的长宽不一定需要相等。<br>
+将一个循环中有的数字个数称之为深度。</p>
+<h2 id="设计逻辑"><a class="markdownIt-Anchor" href="#设计逻辑"></a> 设计逻辑</h2>
+<p>流程图如下：</p>
+<p><img src="/2023/11/12/matlab-puzzle/20190405111103608.png?" alt="流程图"></p>
+<h2 id="前期准备"><a class="markdownIt-Anchor" href="#前期准备"></a> 前期准备</h2>
+<p><img src="/2023/11/12/matlab-puzzle/20190404220153672.png" alt="在这里插入图片描述"><br>
+首先是绘制这几张图片（用画图软件画的）。<br>
+然后用imread()读入Matlab，直接拼接成一长条。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c">img=[];<br><span class="hljs-keyword">for</span> k=<span class="hljs-number">1</span>:<span class="hljs-number">9</span><br>    img=[img,imread(<span class="hljs-built_in">strcat</span>(num2str(k),<span class="hljs-string">&#x27;.png&#x27;</span>))];<br>end<br><span class="hljs-title function_">imshow</span><span class="hljs-params">(img)</span>%显示<br><span class="hljs-title function_">imwrite</span><span class="hljs-params">(img,<span class="hljs-string">&#x27;puzzle1.png&#x27;</span>)</span>;%输出到文件目录<br></code></pre></td></tr></table></figure>
+<p><img src="/2023/11/12/matlab-puzzle/2019040422033635.png" alt="读入图片"><br>
+本来打算用小方块来实现，后来发现拼合成长条直接用也很方便。使用长条形的素材，构造一个GetImg函数以获取第k个数字的图片。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c">function X=GetImg(img,k)<br>%取出第k张图<br>  X=img(:,<span class="hljs-number">100</span>*(k<span class="hljs-number">-1</span>)+<span class="hljs-number">1</span>:<span class="hljs-number">100</span>*k,:);<br>end<br></code></pre></td></tr></table></figure>
+<h2 id="绘制游戏画面"><a class="markdownIt-Anchor" href="#绘制游戏画面"></a> 绘制游戏画面</h2>
+<p>游戏画面的9个数字可以用一个3×3的矩阵来标记。绘制游戏画面的函数drawmap就依靠得到的状态，也就是3×3的标记矩阵来显示，代码如下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c">function <span class="hljs-title function_">drawmap</span><span class="hljs-params">(A)</span><br>im=imread(<span class="hljs-string">&#x27;puzzle1.png&#x27;</span>);<br>img=uint8(zeros(<span class="hljs-number">300</span>,<span class="hljs-number">300</span>,<span class="hljs-number">3</span>));%预分配，且类型需要为unint8<br>% 对要显示的图片进行赋值<br><span class="hljs-keyword">for</span> row=<span class="hljs-number">1</span>:<span class="hljs-number">3</span><br>    <span class="hljs-keyword">for</span> col=<span class="hljs-number">1</span>:<span class="hljs-number">3</span><br>        img(<span class="hljs-number">1</span>+(row<span class="hljs-number">-1</span>)*<span class="hljs-number">100</span>:<span class="hljs-number">100</span>*row,<span class="hljs-number">1</span>+(col<span class="hljs-number">-1</span>)*<span class="hljs-number">100</span>:<span class="hljs-number">100</span>*col,:)=GetImg(im,A(row,col)); %将A矩阵中的数字和图片对应<br>    end<br>end<br><span class="hljs-title function_">imshow</span><span class="hljs-params">(img)</span>%显示画面<br>end<br></code></pre></td></tr></table></figure>
+<p>用以下语句测试，矩阵A和显示的每个数字都对应</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">A=[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>;<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>;<span class="hljs-number">7</span>,<span class="hljs-number">8</span>,<span class="hljs-number">9</span>]<br>drawmap(A);<br></code></pre></td></tr></table></figure>
+<p><img src="/2023/11/12/matlab-puzzle/20190404221851669.png" alt="在这里插入图片描述"></p>
+<h2 id="打乱函数"><a class="markdownIt-Anchor" href="#打乱函数"></a> 打乱函数</h2>
+<p>虽然没有严格的证明，但是经验得出（没有遇到随机的打乱无法复原的情况）任意状态应该都是可以复原的，所以打乱就可以很简单用随机生成的9个数字来实现，并不需要模拟人为打乱。任意状态是否都能复原还有待证明。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c">function A=Disrupt()<br>A=unidrnd(<span class="hljs-number">9</span>,<span class="hljs-number">3</span>,<span class="hljs-number">3</span>);随机生成值在<span class="hljs-number">1</span>到<span class="hljs-number">9</span>之间的<span class="hljs-number">3</span>×<span class="hljs-number">3</span>矩阵<br>drawmap(A);<br>end<br></code></pre></td></tr></table></figure>
+<h2 id="主函数和规则"><a class="markdownIt-Anchor" href="#主函数和规则"></a> 主函数和规则</h2>
+<p>Matlab提供了两种获取鼠标坐标的途径，一个是ginput()函数，会有一个十字光标进行定位；另一个利用figure的WindowButtonDownFcn属性，在figure界面点击鼠标可以调用回调函数，实现一些功能。游戏的主函数如下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c">function <span class="hljs-title function_">puzzle</span><span class="hljs-params">()</span><br>%% 主函数<br><span class="hljs-title function_">loading</span><span class="hljs-params">()</span>%开场动画<br>global Tag;%Tag是标记矩阵，定义成全局变量，方便传递参数 <br>Tag=Disrupt();%将标记矩阵的排列顺序打乱Tag_A;<br>global count;%计算步数，也设为全局变量<br>count=<span class="hljs-number">0</span>;<br><span class="hljs-built_in">set</span>(gcf,<span class="hljs-string">&#x27;windowButtonDownFcn&#x27;</span>,@ButttonDownFcn);%点击鼠标时调用ButttonDownFcn函数<br><br></code></pre></td></tr></table></figure>
+<p>鼠标点击时调用ButttonDownFcn函数，ButttonDownFcn函数中实现游戏的规则和画面的刷新，比较偷懒没有分模块来写，所有都写在一块了。图像的大小时300×300，所以坐标值/100向上取整（ceil函数）转化为矩阵对应的坐标。用四个if语句来实现了规则。最后检测是否胜利，可以用标记矩阵和k*ones(3,3)比较，也可以逐项比较每个元素是否相等。达成胜利条件，输出包含还原步数的消息。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs c">function <span class="hljs-title function_">ButttonDownFcn</span><span class="hljs-params">(src,event)</span><br>pt = get(gca,<span class="hljs-string">&#x27;CurrentPoint&#x27;</span>);<br>y = uint8(<span class="hljs-built_in">ceil</span>(pt(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)/<span class="hljs-number">100</span>));<br>x = uint8(<span class="hljs-built_in">ceil</span>(pt(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>)/<span class="hljs-number">100</span>));%获取点击的位置转化为矩阵中的坐标<br>global Tag<br>global count%声明全局变量<br><br><span class="hljs-keyword">if</span> x&gt;=<span class="hljs-number">1</span>&amp;&amp;x&lt;=<span class="hljs-number">3</span>&amp;&amp;y&gt;=<span class="hljs-number">1</span>&amp;&amp;y&lt;=<span class="hljs-number">3</span>%点击位置满足才执行<br>    count=count+<span class="hljs-number">1</span>;%计算步数<br>    Tag(x,y)=Tag(x,y)+<span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">if</span> x&lt;<span class="hljs-number">3</span> %四个<span class="hljs-keyword">if</span>实现规则<br>        Tag(x+<span class="hljs-number">1</span>,y)=Tag(x+<span class="hljs-number">1</span>,y)+<span class="hljs-number">1</span>;<br>    end<br>    <span class="hljs-keyword">if</span> x&gt;<span class="hljs-number">1</span><br>        Tag(x<span class="hljs-number">-1</span>,y)=Tag(x<span class="hljs-number">-1</span>,y)+<span class="hljs-number">1</span>;<br>    end<br>    <span class="hljs-keyword">if</span> y&lt;<span class="hljs-number">3</span><br>        Tag(x,y+<span class="hljs-number">1</span>)=Tag(x,y+<span class="hljs-number">1</span>)+<span class="hljs-number">1</span>;<br>    end<br>    <span class="hljs-keyword">if</span> y&gt;<span class="hljs-number">1</span><br>        Tag(x,y<span class="hljs-number">-1</span>)=Tag(x,y<span class="hljs-number">-1</span>)+<span class="hljs-number">1</span>;<br>    end<br>    <span class="hljs-title function_">Tag</span><span class="hljs-params">(Tag==<span class="hljs-number">10</span>)</span>=<span class="hljs-number">1</span> ;<br>end<br><span class="hljs-title function_">drawmap</span><span class="hljs-params">(Tag)</span>;<br><br>%胜利条件<br><span class="hljs-keyword">for</span> k=<span class="hljs-number">1</span>:<span class="hljs-number">9</span><br>    <span class="hljs-keyword">if</span> Tag==uint8(k*ones(<span class="hljs-number">3</span>,<span class="hljs-number">3</span>))<br>        msgbox(<span class="hljs-built_in">strcat</span>(num2str(count),<span class="hljs-string">&#x27; !You win!&#x27;</span>)); %提示完成信息<br>        pause(<span class="hljs-number">5</span>);%延迟<br>        close all %游戏结束，关闭所有图像窗口<br><br>    end<br>end<br>end<br></code></pre></td></tr></table></figure>
+<p>至此所有的工作都完成了，运行puzzle()函数就能可以玩了。</p>
+<h2 id="谜题解法"><a class="markdownIt-Anchor" href="#谜题解法"></a> 谜题解法</h2>
+<p>我的解法利用了它的对称性，优化一下步数大概在40-60之间。欢迎交流解法。<br>
+叙述可能有些繁杂，有时间再详写。</p>
+<h2 id="扩展"><a class="markdownIt-Anchor" href="#扩展"></a> 扩展</h2>
+<p>以上整个3×3的拼图就算是完成了，但是功能并不灵活。经过一些小修改可以实现十分丰富的玩法。</p>
+<h4 id="更多阶数和深度"><a class="markdownIt-Anchor" href="#更多阶数和深度"></a> 更多阶数和深度</h4>
+<p>在这个代码的基础上制作更高阶的版本也非常容易实现。在puzzle()函数中引入3个全局变量dim_x,dim_y和depth，编写setdim()分别来设置维数。</p>
+<p>puzzle.m修改如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c">function <span class="hljs-title function_">puzzle</span><span class="hljs-params">()</span><br>%% 主函数<br>%<span class="hljs-title function_">loading</span><span class="hljs-params">()</span>%开场动画<br>global Tag;%Tag是标记矩阵，定义成全局变量，方便传递参数 <br>global count;%计算步数，也设为全局变量<br>count=<span class="hljs-number">0</span>;<br>global dim_x;<br>global dim_y;<br>global depth;%维度<br>[dim_x,dim_y,depth]=setdim(<span class="hljs-number">4</span>,<span class="hljs-number">4</span>,<span class="hljs-number">6</span>);<br>Tag=Disrupt();%将标记矩阵的排列顺序打乱Tag_A;<br><span class="hljs-built_in">set</span>(gcf,<span class="hljs-string">&#x27;windowButtonDownFcn&#x27;</span>,@ButtonDownFcn);%点击鼠标时调用ButttonDownFcn函数<br><br></code></pre></td></tr></table></figure>
+<p>setdim()函数如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c">function [dim_x,dim_y,depth]=setdim(x,y,d)<br>dim_x=x;<br>dim_y=y;<br>depth=d;<br>end<br></code></pre></td></tr></table></figure>
+<p>同时在其他的函数中也需要进行一些修改<br>
+绘制画面根据dim_x,dim_y绘制画面，</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c">function <span class="hljs-title function_">drawmap</span><span class="hljs-params">(A)</span><br>im=imread(<span class="hljs-string">&#x27;puzzle1.png&#x27;</span>);<br>img=uint8(zeros(<span class="hljs-number">100</span>,<span class="hljs-number">100</span>,<span class="hljs-number">3</span>));%预分配，且类型需要为unint8<br>global dim_x<br>global dim_y<br>% 对要显示的拼图进行赋值<br><span class="hljs-keyword">for</span> row=<span class="hljs-number">1</span>:dim_x<br>    <span class="hljs-keyword">for</span> col=<span class="hljs-number">1</span>:dim_y<br>        img(<span class="hljs-number">1</span>+(row<span class="hljs-number">-1</span>)*<span class="hljs-number">100</span>:<span class="hljs-number">100</span>*row,<span class="hljs-number">1</span>+(col<span class="hljs-number">-1</span>)*<span class="hljs-number">100</span>:<span class="hljs-number">100</span>*col,:)=GetImg(im,A(row,col)); <br>    end<br>end<br><span class="hljs-title function_">imshow</span><span class="hljs-params">(img)</span>%显示<br>end<br></code></pre></td></tr></table></figure>
+<p>标记矩阵的数值变为1到depth，维度为dim_x,dim_y</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c">function A=Disrupt()<br>global dim_x;<br>global dim_y;<br>global depth<br>A=unidrnd(depth,dim_x,dim_y);<br>drawmap(A);<br>end<br></code></pre></td></tr></table></figure>
+<p>回调函数，基本是将3×3的3换成dim_x,dim_y，当数字超过depth变为1，胜利条件变为与1到depth的dim_x×dim_y的矩阵比较。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs c">function <span class="hljs-title function_">ButttonDownFcn</span><span class="hljs-params">(src,event)</span><br>pt = get(gca,<span class="hljs-string">&#x27;CurrentPoint&#x27;</span>);<br>y = uint8(<span class="hljs-built_in">ceil</span>(pt(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)/<span class="hljs-number">100</span>));<br>x = uint8(<span class="hljs-built_in">ceil</span>(pt(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>)/<span class="hljs-number">100</span>));<br>global Tag<br>global count<br>global dim_x<br>global dim_y<br>global depth<br><span class="hljs-keyword">if</span> x&gt;=<span class="hljs-number">1</span>&amp;&amp;x&lt;=dim_x&amp;&amp;y&gt;=<span class="hljs-number">1</span>&amp;&amp;y&lt;=dim_y%点击位置满足才执行<br>    count=count+<span class="hljs-number">1</span>;%计算步数<br>    Tag(x,y)=Tag(x,y)+<span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">if</span> x&lt;dim_x %四个<span class="hljs-keyword">if</span>实现规则<br>        Tag(x+<span class="hljs-number">1</span>,y)=Tag(x+<span class="hljs-number">1</span>,y)+<span class="hljs-number">1</span>;<br>    end<br>    <span class="hljs-keyword">if</span> x&gt;<span class="hljs-number">1</span><br>        Tag(x<span class="hljs-number">-1</span>,y)=Tag(x<span class="hljs-number">-1</span>,y)+<span class="hljs-number">1</span>;<br>    end<br>    <span class="hljs-keyword">if</span> y&lt;dim_y<br>        <span class="hljs-title function_">Tag</span><span class="hljs-params">(x,y+<span class="hljs-number">1</span>)</span>=Tag(x,y+<span class="hljs-number">1</span>)+<span class="hljs-number">1</span>;<br>    end<br>    <span class="hljs-keyword">if</span> y&gt;<span class="hljs-number">1</span><br>        Tag(x,y<span class="hljs-number">-1</span>)=Tag(x,y<span class="hljs-number">-1</span>)+<span class="hljs-number">1</span>;<br>    end<br>    <span class="hljs-title function_">Tag</span><span class="hljs-params">(Tag==depth+<span class="hljs-number">1</span>)</span>=<span class="hljs-number">1</span> ;<br>end<br><span class="hljs-title function_">drawmap</span><span class="hljs-params">(Tag)</span>;<br><br>%胜利条件<br><span class="hljs-keyword">for</span> k=<span class="hljs-number">1</span>:depth<br>    <span class="hljs-keyword">if</span> Tag==uint8(k*ones(dim_x,dim_y))<br>        msgbox(<span class="hljs-built_in">strcat</span>(num2str(count),<span class="hljs-string">&#x27; !You win!&#x27;</span>)); %提示完成信息<br>        pause(<span class="hljs-number">5</span>);%延迟<br>        close all %游戏结束，关闭所有图像窗口<br><br>    end<br>end<br>end<br></code></pre></td></tr></table></figure>
+<p>只需修改这几个小地方，通过setdim()即可调整设置不同维度</p>
+<h5 id="227"><a class="markdownIt-Anchor" href="#227"></a> 2×2×7</h5>
+<p><img src="/2023/11/12/matlab-puzzle/20190405113651965.gif" alt="在这里插入图片描述"></p>
+<h5 id="332"><a class="markdownIt-Anchor" href="#332"></a> 3×3×2</h5>
+<p>这个换成0和1可能更好一点<br>
+<img src="/2023/11/12/matlab-puzzle/20190405114008504.gif" alt="在这里插入图片描述"></p>
+<h5 id="更高阶"><a class="markdownIt-Anchor" href="#更高阶"></a> 更高阶</h5>
+<p><img src="/2023/11/12/matlab-puzzle/20190405114100218.png" alt="在这里插入图片描述"></p>
+<p><img src="/2023/11/12/matlab-puzzle/2019040511413141.png" alt="在这里插入图片描述"><br>
+<img src="/2023/11/12/matlab-puzzle/20190405114151786.png" alt="在这里插入图片描述"></p>
+<h5 id="不等阶"><a class="markdownIt-Anchor" href="#不等阶"></a> 不等阶</h5>
+<p><img src="/2023/11/12/matlab-puzzle/20190405120016772.gif" alt="在这里插入图片描述"></p>
+<h4 id="修改规则"><a class="markdownIt-Anchor" href="#修改规则"></a> 修改规则</h4>
+<p>经过修改回调函数可以实现别的规则，新规则同样适用于不同的阶数</p>
+<p><strong>1.注释掉回调函数的第10行</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">%Tag(x,y)=Tag(x,y)+<span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure>
+<p>规则就改为被点击的方块数值不发生变化，相邻方块数值加1。</p>
+<p><img src="/2023/11/12/matlab-puzzle/2019040422500729.gif" alt="在这里插入图片描述"><br>
+<strong>2.更改为被点击的方块所在的行列+1</strong><br>
+代码修改为</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> x&gt;=<span class="hljs-number">1</span>&amp;&amp;x&lt;=dim_x&amp;&amp;y&gt;=<span class="hljs-number">1</span>&amp;&amp;y&lt;=dim_y%点击位置满足才执行<br>    count=count+<span class="hljs-number">1</span>;%计算步数<br>    Tag(x,y)=Tag(x,y)+<span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">if</span> x&lt;dim_x %四个<span class="hljs-keyword">if</span>实现规则<br>        Tag(x+<span class="hljs-number">1</span>:dim_x,y)=Tag(x+<span class="hljs-number">1</span>:dim_x,y)+<span class="hljs-number">1</span>;<br>    end<br>    <span class="hljs-keyword">if</span> x&gt;<span class="hljs-number">1</span><br>        Tag(<span class="hljs-number">1</span>:x<span class="hljs-number">-1</span>,y)=Tag(<span class="hljs-number">1</span>:x<span class="hljs-number">-1</span>,y)+<span class="hljs-number">1</span>;<br>    end<br>    <span class="hljs-keyword">if</span> y&lt;dim_y<br>        <span class="hljs-title function_">Tag</span><span class="hljs-params">(x,y+<span class="hljs-number">1</span>:dim_y)</span>=Tag(x,y+<span class="hljs-number">1</span>:dim_y)+<span class="hljs-number">1</span>;<br>    end<br>    <span class="hljs-keyword">if</span> y&gt;<span class="hljs-number">1</span><br>        Tag(x,<span class="hljs-number">1</span>:y<span class="hljs-number">-1</span>)=Tag(x,<span class="hljs-number">1</span>:y<span class="hljs-number">-1</span>)+<span class="hljs-number">1</span>;<br>    end<br>    <span class="hljs-title function_">Tag</span><span class="hljs-params">(Tag==depth+<span class="hljs-number">1</span>)</span>=<span class="hljs-number">1</span> ;<br>end<br></code></pre></td></tr></table></figure>
+<p>效果如下：<br>
+<img src="/2023/11/12/matlab-puzzle/20190405114748959.gif" alt="在这里插入图片描述"><br>
+<strong>3.其他</strong><br>
+当然也可以设计成以上两种规则的混合，还可以设计成对角相加，或者其他一些更奇怪的规则。胜利条件也可以被设置得更苛刻，比如只有都为1才算时胜利。未来会加入更多的修改。</p>
+<h2 id="问题和改进"><a class="markdownIt-Anchor" href="#问题和改进"></a> 问题和改进</h2>
+<ul>
+<li>对于新规则，打乱可能存在问题，没有严格的证明其他任意阶数的任意状态和任意规则都可以复原</li>
+<li>缺少一个GUI界面以便选择更多模式，记录最好成绩等</li>
+<li>可以考虑增加一个计时模式</li>
+<li>对于某一规则可以写一个通用解法</li>
+<li>欢迎提出建议或意见</li>
+</ul>
+<h2 id="后记"><a class="markdownIt-Anchor" href="#后记"></a> 后记</h2>
+<p>游戏解法方面，除了最原始的规则和阶数，目前对于更高阶数和新设计的解法也没什么好的解法，运气好可能能解出来。</p>
+<p>欢迎交流解法和游戏相关规则设计的问题。</p>
+</div>
+        <!-- <div class="welcome-message">欢迎！</div> -->
+      </article>
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          var wordCount = document.getElementById("wordCount");
+          var content = document.querySelector(".post-content").textContent;
+          var count = content.length;
+          wordCount.textContent = count;
+        });
+      </script>
+        
+        
+        <script src="https://giscus.app/client.js"
+        data-repo="sleepingcat42/sleepingcat42.github.io"
+        data-repo-id="R_kgDOJcZn-w"
+        data-category="General"
+        data-category-id="DIC_kwDOJcZn-84CWdls"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+        </script>
+        <!-- <script src="https://giscus.app/client.js"
+          data-repo=  sleepingcat42/sleepingcat42.github.io
+          data-repo-id="MDEwOlJlcG9zaXRvcnkzNTIwMzg4MTk="
+          data-category="General"
+          data-category-id="DIC_kwDOFPuvo84COOf2"
+          data-mapping="pathname"
+          data-reactions-enabled="1"
+          data-emit-metadata="0"
+          data-input-position="top"
+          data-theme="light"
+          data-lang="en"
+          data-loading="lazy"
+          crossorigin="anonymous"
+          async>
+        </script> -->
+        
+        <footer class="footer">
+    <div class="blog-title", align="left">
+        <style>
+            p.small {
+            line-height:1.2;}            
+        </style>
+        
+        <br />
+        <!-- <h1><a href="/">hello world</a></h1> -->
+        <!-- <p class="copyright"></p> -->
+        
+        <!-- <p class="cc-license">本站所有文章均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by/4.0/">CC4协议</a>进行许可。</p> -->
+        <p class="small">
+            
+            &copy; 2023 -<script>document.write(new Date().getFullYear())</script>  Sleepingcat. All rights reserved.<br>
+        
+            All posts are licensed under a <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by/4.0/">CC4.0 License</a>.<br>
+            Be kind and be curious.
+        </p>
+        
+    </div>
+    <br />
+    <br />
+    
+
+</footer>
+      </main>
+  </body>
+
+</html>

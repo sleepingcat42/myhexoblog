@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css" rel="stylesheet" type="text/css">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <title>Windows 作为远程服务器</title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Sleepingcat" type="application/atom+xml">
+</head>
+  <body>
+    <main class="container">
+      <header class="header">
+    <div class="blog-title">
+        <h1><a href="/">Sleepingcat</a></h1>
+
+    </div>
+    <nav class="navbar">
+        <ul class="menu">
+            
+                <li class="menu-item">
+                    <!-- Home Archives Categories About RSS Friends -->
+                    <!-- Home/Archives/Categories/About/RSS/Friends -->
+                    <a href="/" class="menu-item-link">Home</a>
+                    
+                </li>
+            
+                <li class="menu-item">
+                    <!-- Home Archives Categories About RSS Friends -->
+                    <!-- Home/Archives/Categories/About/RSS/Friends -->
+                    <a href="/archives" class="menu-item-link">Archives</a>
+                    
+                </li>
+            
+                <li class="menu-item">
+                    <!-- Home Archives Categories About RSS Friends -->
+                    <!-- Home/Archives/Categories/About/RSS/Friends -->
+                    <a href="/categories" class="menu-item-link">Categories</a>
+                    
+                </li>
+            
+                <li class="menu-item">
+                    <!-- Home Archives Categories About RSS Friends -->
+                    <!-- Home/Archives/Categories/About/RSS/Friends -->
+                    <a href="/about" class="menu-item-link">About</a>
+                    
+                </li>
+            
+                <li class="menu-item">
+                    <!-- Home Archives Categories About RSS Friends -->
+                    <!-- Home/Archives/Categories/About/RSS/Friends -->
+                    <a href="/atom.xml" class="menu-item-link">RSS</a>
+                    
+                </li>
+            
+                <li class="menu-item">
+                    <!-- Home Archives Categories About RSS Friends -->
+                    <!-- Home/Archives/Categories/About/RSS/Friends -->
+                    <a href="/friends" class="menu-item-link">Friends</a>
+                    
+                </li>
+            
+        </ul>
+    </nav>
+</header>
+      <article class="post">
+        <div class="post-title">
+          <h2 class="title">Windows 作为远程服务器</h2>
+        </div>
+        
+        <div class="post-meta">
+          <span class="post-time">2023-08-19 09:08</span>
+          <span class="post-word-count"> 本文约 <span id="wordCount"></span> 字</span>
+        </div>
+        
+        <div class="post-content"><p>快要开学，又要来不少人。决定在一台电脑上实现类似服务器的功能，解决每次用都要跑到那个电脑的位置上/开向日葵之类的远程桌面软件/一个人用了其他都没办法使用的问题。</p>
+<p>在网上搜索一番，大多数教程都是针对linux，其实windows本身也很容易实现。用 windows 自带 Open-SSH，再加上 vscode 的 Remote—SSH 插件，基本能够实现远程连接并编写代码。这里只是简单记录，并非手把手教程，根据文章中给出的连接或者自行Google/百度应该也能实现。</p>
+<span id="more"></span>
+<h2 id="1-windows-open-ssh"><a class="markdownIt-Anchor" href="#1-windows-open-ssh"></a> 1. windows Open-SSH</h2>
+<p>win10后的系统安装ssh都十分方便。主要是参考了简书这篇博客：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/04e64bfcc79b">win10 安装 ssh 并作为服务器使用</a></p>
+<p>微软官方的教程：<a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse?tabs=gui">Get started with OpenSSH for</a></p>
+<h2 id="2-vscode-的-remote-ssh"><a class="markdownIt-Anchor" href="#2-vscode-的-remote-ssh"></a> 2. Vscode 的 Remote-SSH</h2>
+<p>Vscode 安装Remote-SSH扩展。安装完成后，按 <strong>F1</strong> 或者（<strong>Ctrl+shift+p</strong>）输入指令 <strong>Remote-SSH: Open SSH Host…</strong> 命令，输入用户名和 ip <strong>user@host-or-ip</strong>，再输入密码，就能连接和访问远程服务器。当然也可以选择将SSH公钥传到服务器端，就可以实现免密码登录。</p>
+<p>为远程服务器安装相应的 Vscode 扩展，基本上和本地使用没有太大区别，在 terminal 的窗口下可以用 conda 的命令来安装包和管理环境。</p>
+<h2 id="3-其他问题以及解决方法"><a class="markdownIt-Anchor" href="#3-其他问题以及解决方法"></a> 3. 其他问题以及解决方法</h2>
+<h3 id="31-无法打开绘图的gui界面"><a class="markdownIt-Anchor" href="#31-无法打开绘图的gui界面"></a> 3.1 无法打开绘图的GUI界面</h3>
+<p>绘图测试代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br>plt.plot([<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>],[<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">2</span>])<br>plt.show()<br></code></pre></td></tr></table></figure>
+<p>无论是windows还是linux都存在这个问题，绘图的GUI界面无法出现，每次画图可能都需要保存到本地再查看，过于麻烦。网上给出的解决方案过于麻烦。最后安装了 Jupyter 插件，在 Jupyter 的环境下运行就能正常显示图片。效果如下：</p>
+<p><img src="/2023/08/19/open-ssh-for-windows/image.png" alt="效果图"></p>
+<h3 id="32-外网无法访问的问题"><a class="markdownIt-Anchor" href="#32-外网无法访问的问题"></a> 3.2 外网无法访问的问题</h3>
+<p>脱离了校园网之后就无法正常连接，为了方便同学们放假离校也能加班，利用内网穿透的服务实现了校外访问。</p>
+<p>我采用的是花生壳，免费版可以设置两个端口，带宽为1M。</p>
+<p>官方教程：<a target="_blank" rel="noopener" href="https://service.oray.com/question/16216.html">https://service.oray.com/question/16216.html</a></p>
+<p>脱离校园网后，只需要输入外网域名和端口，就能正常连接。但是由于带宽限制，略有延迟，不建议离校加班。</p>
+</div>
+        <!-- <div class="welcome-message">欢迎！</div> -->
+      </article>
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          var wordCount = document.getElementById("wordCount");
+          var content = document.querySelector(".post-content").textContent;
+          var count = content.length;
+          wordCount.textContent = count;
+        });
+      </script>
+        
+        
+        <script src="https://giscus.app/client.js"
+        data-repo="sleepingcat42/sleepingcat42.github.io"
+        data-repo-id="R_kgDOJcZn-w"
+        data-category="General"
+        data-category-id="DIC_kwDOJcZn-84CWdls"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+        </script>
+        <!-- <script src="https://giscus.app/client.js"
+          data-repo=  sleepingcat42/sleepingcat42.github.io
+          data-repo-id="MDEwOlJlcG9zaXRvcnkzNTIwMzg4MTk="
+          data-category="General"
+          data-category-id="DIC_kwDOFPuvo84COOf2"
+          data-mapping="pathname"
+          data-reactions-enabled="1"
+          data-emit-metadata="0"
+          data-input-position="top"
+          data-theme="light"
+          data-lang="en"
+          data-loading="lazy"
+          crossorigin="anonymous"
+          async>
+        </script> -->
+        
+        <footer class="footer">
+    <div class="blog-title", align="left">
+        <style>
+            p.small {
+            line-height:1.2;}            
+        </style>
+        
+        <br />
+        <!-- <h1><a href="/">hello world</a></h1> -->
+        <!-- <p class="copyright"></p> -->
+        
+        <!-- <p class="cc-license">本站所有文章均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by/4.0/">CC4协议</a>进行许可。</p> -->
+        <p class="small">
+            
+            &copy; 2023 -<script>document.write(new Date().getFullYear())</script>  Sleepingcat. All rights reserved.<br>
+        
+            All posts are licensed under a <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by/4.0/">CC4.0 License</a>.<br>
+            Be kind and be curious.
+        </p>
+        
+    </div>
+    <br />
+    <br />
+    
+
+</footer>
+      </main>
+  </body>
+
+</html>
