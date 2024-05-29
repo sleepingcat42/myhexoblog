@@ -194,32 +194,6 @@
   </entry>
   
   <entry>
-    <title>与 chatGPT 共事体验：拆除编程语言的巴别塔</title>
-    <link href="https://sleepingcat.me/2023/12/02/coding-with-chatgpt/"/>
-    <id>https://sleepingcat.me/2023/12/02/coding-with-chatgpt/</id>
-    <published>2023-12-02T13:34:44.000Z</published>
-    <updated>2023-12-02T13:40:48.399Z</updated>
-    
-    
-    <summary type="html">&lt;pre&gt;&lt;code&gt;注意：本文包含 AI 创作
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2 id=&quot;我平时用-chatgpt-干什么&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#我平时用-chatgpt-干什么&quot;&gt;&lt;/a&gt; 我平时用 chatGPT 干什么&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;聊天：几乎是漫无目的聊天。也没有太多有意义的记录&lt;/li&gt;
-&lt;li&gt;写作润色：有时候会用来润色英文句子，但是担心自己本来就不好的英语写作水平继续退化&lt;/li&gt;
-&lt;li&gt;搜索：经常用的是 NewBing，但是中文搜索的质量非常差，NewBing早些时候的&lt;strong&gt;情绪&lt;/strong&gt;有些不稳定。&lt;/li&gt;
-&lt;li&gt;写材料：学校的各种材料，我往往会先让GPT（文心一言在这方面的效果也不错）生成一个大概，再自己去修改。虽然也可以指挥 GPT 自己一步一步修改，但是自己修改会更好一些。&lt;/li&gt;
-&lt;li&gt;写代码：让GPT写一些简单的脚本和小的程序，GPT基本上都能完成完成得很好。比如 python 中的绘图库 Matplotlib，接口有些混乱，想要绘制出自己满意的图非常耗时间。指挥 GPT 绘制+自己可以节省查询 API 的时间，比如指定深度学习模型的输入输出，GPT写出一段直接就能用的代码也是绰绰有余的。&lt;/li&gt;
-&lt;/ul&gt;</summary>
-    
-    
-    
-    <category term="技术|Tech" scheme="https://sleepingcat.me/categories/%E6%8A%80%E6%9C%AF-Tech/"/>
-    
-    
-  </entry>
-  
-  <entry>
     <title>十一月倒数第一周小结</title>
     <link href="https://sleepingcat.me/2023/11/25/weekly-1/"/>
     <id>https://sleepingcat.me/2023/11/25/weekly-1/</id>
@@ -371,6 +345,28 @@
     
     
     <summary type="html">&lt;p&gt;本周粗略地看了几个写 hexo 模板的教程，完善了一些功能。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="其他" scheme="https://sleepingcat.me/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>个人博客折腾记录</title>
+    <link href="https://sleepingcat.me/2023/06/23/started/"/>
+    <id>https://sleepingcat.me/2023/06/23/started/</id>
+    <published>2023-06-23T08:35:12.000Z</published>
+    <updated>2023-11-25T03:14:21.508Z</updated>
+    
+    
+    <summary type="html">&lt;ul&gt;
+&lt;li&gt;博客地址：&lt;a href=&quot;https://sleepingcat42.github.io/&quot;&gt;https://sleepingcat42.github.io/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;欢迎订阅 RSS : &lt;a href=&quot;https://sleepingcat42.github.io/atom.xml&quot;&gt;https://sleepingcat42.github.io/atom.xml&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;为什么要建一个自己的博客&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#为什么要建一个自己的博客&quot;&gt;&lt;/a&gt; 为什么要建一个自己的博客&lt;/h3&gt;
+&lt;p&gt;最主要的原因是受不了各大网站的的内容审查，尤其是 douban。其次是需要一个更好的排版系统，比如支持 Tex 公式（指支持Markdown）。虽然 Markdown 也存在很多问题，比如规范不统一，公式渲染也存在问题，但毕竟平时习惯使用，目前也没找到更好的替代品。除此之外对其他的功能要求勂。&lt;/p&gt;</summary>
     
     
     
