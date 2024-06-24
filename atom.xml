@@ -6,7 +6,7 @@
   <link href="https://sleepingcat.me/atom.xml" rel="self"/>
   
   <link href="https://sleepingcat.me/"/>
-  <updated>2024-05-31T15:33:01.704Z</updated>
+  <updated>2024-06-24T16:05:58.892Z</updated>
   <id>https://sleepingcat.me/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Rider on the storm| 雨中冒险</title>
+    <link href="https://sleepingcat.me/2024/06/25/rider-on-the-storm/"/>
+    <id>https://sleepingcat.me/2024/06/25/rider-on-the-storm/</id>
+    <published>2024-06-24T16:05:34.000Z</published>
+    <updated>2024-06-24T16:05:58.892Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;虽然北京很少下雨，但是非常不巧的是好像经常骑车就遇到雨。最近几天晚上总是下雨，把车处理掉之后，想起的骑行经历不是暴晒就是淋雨，在这里记录几次中途下雨的经历。&lt;/p&gt;
+&lt;h3 id=&quot;前排提醒请勿模仿&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#前排提醒请勿模仿&quot;&gt;&lt;/a&gt; 前排提醒（请勿模仿）&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;不建议下雨的时候骑车，注意地面湿滑，雷雨天气到安全区域；&lt;/li&gt;
+&lt;li&gt;出行前最好看看途径地点的天气预报；&lt;/li&gt;
+&lt;li&gt;实在不行就叫货拉拉或者打车。&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    <category term="出行|Travelling" scheme="https://sleepingcat.me/categories/%E5%87%BA%E8%A1%8C-Travelling/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>游戏|Braid 周年纪念版本的评论世界</title>
@@ -359,23 +382,6 @@
     
     
     <category term="出行|Travelling" scheme="https://sleepingcat.me/categories/%E5%87%BA%E8%A1%8C-Travelling/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>个人博客折腾记录 (二)</title>
-    <link href="https://sleepingcat.me/2023/07/02/started-2/"/>
-    <id>https://sleepingcat.me/2023/07/02/started-2/</id>
-    <published>2023-07-02T12:33:07.000Z</published>
-    <updated>2023-11-25T03:14:09.511Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;本周粗略地看了几个写 hexo 模板的教程，完善了一些功能。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="其他" scheme="https://sleepingcat.me/categories/%E5%85%B6%E4%BB%96/"/>
     
     
   </entry>
